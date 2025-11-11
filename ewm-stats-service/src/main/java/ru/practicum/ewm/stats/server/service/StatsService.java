@@ -2,6 +2,7 @@ package ru.practicum.ewm.stats.server.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.stats.dto.EndpointHitDto;
 import ru.practicum.ewm.stats.dto.ViewStatsDto;
 import ru.practicum.ewm.stats.server.model.Hit;
@@ -19,6 +20,7 @@ public class StatsService {
     private final HitRepository repo;
     private static final DateTimeFormatter DFM = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+    @Transactional
     public void save(EndpointHitDto dto) {
         Hit h = new Hit();
         h.setApp(dto.getApp());
@@ -28,6 +30,7 @@ public class StatsService {
         repo.save(h);
     }
 
+    @Transactional(readOnly = true)
     public List<ViewStatsDto> stats(String start, String end, List<String> uris, boolean unique) {
         LocalDateTime s = LocalDateTime.parse(start, DFM);
         LocalDateTime e = LocalDateTime.parse(end, DFM);
