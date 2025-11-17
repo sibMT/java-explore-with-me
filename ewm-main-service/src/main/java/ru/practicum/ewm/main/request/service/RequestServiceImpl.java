@@ -137,56 +137,52 @@ public class RequestServiceImpl implements RequestService {
         Event event = getEventForInitiator(userId, eventId);
         if (requestUpdate.getStatus() != RequestStatus.CONFIRMED
                 && requestUpdate.getStatus() != RequestStatus.REJECTED) {
-            throw new ConditionsNotMetException("Status must be CONFIRMED or REJECTED") {
-            };
+            throw new ConditionsNotMetException("Status must be CONFIRMED or REJECTED");
         }
 
         List<Request> requests = requestRepository.findAllById(requestUpdate.getRequestIds());
         for (Request r : requests) {
             if (!r.getEvent().getId().equals(eventId)) {
-                throw new ConditionsNotMetException("All requests must belong to the event") {
-                };
+                throw new ConditionsNotMetException("All requests must belong to the event");
             }
         }
 
         List<ParticipationRequestDto> confirmed = new ArrayList<>();
         List<ParticipationRequestDto> rejected = new ArrayList<>();
-
         int confirmedCount = event.getConfirmedRequests();
         int limit = event.getParticipantLimit();
+
         if (requestUpdate.getStatus() == RequestStatus.CONFIRMED
                 && limit != 0
                 && confirmedCount >= limit) {
-            throw new ConditionsNotMetException("Participant limit has been reached") {
-            };
+            throw new ConditionsNotMetException("Participant limit has been reached");
         }
 
         for (Request r : requests) {
             if (r.getStatus() != RequestStatus.PENDING) {
-                throw new ConditionsNotMetException("Only pending requests can be updated") {
-                };
+                throw new ConditionsNotMetException("Only pending requests can be updated");
             }
 
             if (requestUpdate.getStatus() == RequestStatus.CONFIRMED) {
                 if (limit != 0 && confirmedCount >= limit) {
-                    throw new ConditionsNotMetException("Participant limit has been reached") {
-                    };
+                    throw new ConditionsNotMetException("Participant limit has been reached");
                 }
 
                 r.setStatus(RequestStatus.CONFIRMED);
                 confirmedCount++;
-                event.setConfirmedRequests(confirmedCount);
-                requestRepository.save(r);
                 confirmed.add(requestMapper.toDto(r));
 
             } else {
                 r.setStatus(RequestStatus.REJECTED);
-                requestRepository.save(r);
                 rejected.add(requestMapper.toDto(r));
             }
         }
 
+        event.setConfirmedRequests(confirmedCount);
+        requestRepository.saveAll(requests);
         eventRepository.save(event);
+
+        // уменьшил кол-во обращений, но не понял до конца это все возможные упрощения или еще можно сократить кол-во обращений
 
         return EventRequestStatusUpdateResult.builder()
                 .confirmedRequests(confirmed)
