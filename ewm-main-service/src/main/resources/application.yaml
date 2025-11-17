@@ -1,11 +1,11 @@
 server:
-  port: 9091
+  port: 8080
 
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ewm_stats}
-    username: ${SPRING_DATASOURCE_USERNAME:stats}
-    password: ${SPRING_DATASOURCE_PASSWORD:stats}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ewm_main}
+    username: ${SPRING_DATASOURCE_USERNAME:ewm}
+    password: ${SPRING_DATASOURCE_PASSWORD:ewm}
 
   jpa:
     hibernate:
@@ -21,6 +21,9 @@ spring:
 
   flyway:
     enabled: false
+
+stats:
+  base-url: ${STATS_BASE_URL:http://localhost:9091}
 
 management:
   endpoints:
