@@ -16,7 +16,7 @@ services:
       timeout: 5s
       retries: 10
 
-  ewm-stats-service:
+  stats-server:
     build: ./ewm-stats-service
     container_name: ewm-stats-service
     depends_on:
