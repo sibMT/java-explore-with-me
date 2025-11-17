@@ -23,7 +23,7 @@ spring:
     enabled: false
 
 stats:
-  base-url: ${STATS_BASE_URL:http://localhost:9090}
+  base-url: ${STATS_BASE_URL:http://localhost:9091}
 
 management:
   endpoints:
