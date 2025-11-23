@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ewm_main}
+    username: ${SPRING_DATASOURCE_USERNAME:ewm}
+    password: ${SPRING_DATASOURCE_PASSWORD:ewm}
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    properties:
+      hibernate.jdbc.time_zone: UTC
+
+  sql:
+    init:
+      mode: always
+      platform: postgresql
+
+  flyway:
+    enabled: false
+
+stats:
+  base-url: ${STATS_BASE_URL:http://localhost:9091}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics

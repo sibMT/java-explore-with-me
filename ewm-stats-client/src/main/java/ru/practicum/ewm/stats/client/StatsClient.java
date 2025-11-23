@@ -70,7 +70,7 @@ public class StatsClient {
             for (String u : uris) b.queryParam("uris", u);
         }
 
-        URI uri = b.build(true)
+        URI uri = b.build()
                 .encode(StandardCharsets.UTF_8)
                 .toUri();
 
