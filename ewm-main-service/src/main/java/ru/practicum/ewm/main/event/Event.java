@@ -66,4 +66,7 @@ public class Event {
 
     @Column(name = "location_lon")
     private Double locationLon;
+
+    @Transient
+    private Double rating;
 }

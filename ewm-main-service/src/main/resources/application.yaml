@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ewm_main}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:6542/ewm_main}
     username: ${SPRING_DATASOURCE_USERNAME:ewm}
     password: ${SPRING_DATASOURCE_PASSWORD:ewm}
 
@@ -17,7 +17,7 @@ spring:
   sql:
     init:
       mode: always
-      platform: postgresql
+      schema-locations: classpath:schema-postgresql.sql
 
   flyway:
     enabled: false

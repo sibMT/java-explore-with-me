@@ -145,6 +145,18 @@ public class ErrorHandler {
                 List.of(ex.toString())
         );
     }
+
+    @ExceptionHandler(ConflictException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ApiError handleConflict(ConflictException ex) {
+        log.warn("Conflict: {}", ex.getMessage(), ex);
+        return ApiError.of(
+                HttpStatus.CONFLICT,
+                "Conflict occurred.",
+                ex.getMessage(),
+                List.of(ex.toString())
+        );
+    }
 }
 
 

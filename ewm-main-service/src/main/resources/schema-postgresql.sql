@@ -69,3 +69,16 @@ CREATE TABLE IF NOT EXISTS compilation_events (
 
 CREATE INDEX IF NOT EXISTS idx_compilations_pinned
     ON compilations (pinned);
+
+CREATE TABLE IF NOT EXISTS ratings (
+    id          BIGSERIAL PRIMARY KEY,
+    user_id     BIGINT    NOT NULL,
+    event_id    BIGINT    NOT NULL,
+    is_like     BOOLEAN   NOT NULL,
+    CONSTRAINT uq_rating_user_event UNIQUE (user_id, event_id),
+    CONSTRAINT fk_ratings_user_id    FOREIGN KEY (user_id)  REFERENCES users(id)   ON DELETE CASCADE,
+    CONSTRAINT fk_ratings_event_id   FOREIGN KEY (event_id) REFERENCES events(id)  ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS idx_ratings_event_id ON ratings (event_id);
+CREATE INDEX IF NOT EXISTS idx_ratings_event_id_is_like ON ratings (event_id, is_like);
+
