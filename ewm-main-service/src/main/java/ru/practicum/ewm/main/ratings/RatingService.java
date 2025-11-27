@@ -12,6 +12,8 @@ import ru.practicum.ewm.main.user.model.User;
 import ru.practicum.ewm.main.user.repository.UserRepository;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -62,14 +64,23 @@ public class RatingService {
     public double getUserRating(Long userId) {
         List<Event> events = eventRepository.findByInitiatorId(userId, Pageable.unpaged()).getContent();
         if (events.isEmpty()) return 0.0;
+
+        List<Rating> ratings = ratingRepository.findAllByEventIn(events);
+        Map<Long, List<Rating>> ratingsByEvent = ratings.stream()
+                .collect(Collectors.groupingBy(r -> r.getEvent().getId()));
+
         double sum = 0.0;
         int count = 0;
+
         for (Event event : events) {
-            long total = ratingRepository.countByEventId(event.getId());
-            long likes = ratingRepository.countByEventIdAndIsLikeTrue(event.getId());
+            List<Rating> eventRatings = ratingsByEvent.getOrDefault(event.getId(), List.of());
+            int total = eventRatings.size();
+            long likes = eventRatings.stream().filter(Rating::getIsLike).count();
+
             if (total > 0) {
                 sum += (likes * 100.0) / total;
                 count++;
+
             }
         }
         return count > 0 ? sum / count : 0.0;
