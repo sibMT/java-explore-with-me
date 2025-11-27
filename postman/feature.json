@@ -1,0 +1,408 @@
+{
+	"info": {
+		"_postman_id": "ac423eb5-2d2e-4f93-8340-1ecabb44f7a1",
+		"name": "ExploreWithMe Rating API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44993404"
+	},
+	"item": [
+		{
+			"name": "Ratings",
+			"item": [
+				{
+					"name": "PUT /users/1/events/10/like",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has expected message\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.be.oneOf([\"Rating unchanged\", \"Rating saved\"]);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/1/events/10/like",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"1",
+								"events",
+								"10",
+								"like"
+							]
+						},
+						"description": "Ставит лайк к событию с ID 10 от пользователя с ID 1"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /users/1/events/10/dislike",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response has valid message\", function () {",
+									"    pm.expect(pm.response.json().message).to.be.oneOf([\"Rating saved\", \"Rating unchanged\"]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/1/events/10/dislike",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"1",
+								"events",
+								"10",
+								"dislike"
+							]
+						},
+						"description": "Ставит дизлайк к событию с ID 10 от пользователя с ID 1"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /events",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+									"pm.test(\"Response is an array\", function () { pm.expect(pm.response.json()).to.be.an('array'); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/events",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events"
+							]
+						},
+						"description": "Получает список событий с рейтингом каждого события и рейтингом инициатора в поле initiator.rating"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /events/10",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"Correct error message\", function () {",
+									"    pm.expect(pm.response.json().message).to.include(\"Event with id=10 was not found\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/events/10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events",
+								"10"
+							]
+						},
+						"description": "Получает подробную информацию о событии с ID 10, включая поле rating и initiator.rating"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /users/1/events/11/like",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/1/events/11/like",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"1",
+								"events",
+								"11",
+								"like"
+							]
+						},
+						"description": "голосование за другое событие"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /users/1/events/1/like (собственное событие)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Rating is unchanged or saved\", function () {\r",
+									"    pm.expect(pm.response.json().message).to.be.oneOf([\"Rating unchanged\", \"Rating saved\"]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/1/events/1/like",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"1",
+								"events",
+								"1",
+								"like"
+							]
+						},
+						"description": "ожидаемая ошибка (если инициатор)"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /users/999/events/10/like (неверный userId)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Expected error status\", function () { pm.expect(pm.response.code).to.be.within(400, 599); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/999/events/10/like",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"999",
+								"events",
+								"10",
+								"like"
+							]
+						},
+						"description": "тест неверного userId"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /users/1/events/999/like (неверный eventId)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Expected error status\", function () { pm.expect(pm.response.code).to.be.within(400, 599); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/1/events/999/like",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"1",
+								"events",
+								"999",
+								"like"
+							]
+						},
+						"description": "тест неверного eventId"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Public Events",
+			"item": [
+				{
+					"name": "GET /events?sort=RATING",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+									"pm.test(\"Response is an array\", function () { pm.expect(pm.response.json()).to.be.an('array'); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/events?sort=RATING",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "RATING"
+								}
+							]
+						},
+						"description": "получение событий, отсортированных по рейтингу"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /users/1/rating",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+									"pm.test(\"Rating returned\", function () { pm.expect(pm.response.json()).to.be.a('number'); });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/1/rating",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"1",
+								"rating"
+							]
+						},
+						"description": "если реализован отдельный эндпоинт"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

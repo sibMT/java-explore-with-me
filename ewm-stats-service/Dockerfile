@@ -3,4 +3,5 @@ ARG JAR=target/ewm-stats-service-*.jar
 WORKDIR /app
 COPY ${JAR} app.jar
 EXPOSE 9090
+ENV SERVER_PORT=9090
 ENTRYPOINT ["java","-jar","/app/app.jar"]

@@ -1,4 +1,0 @@
-services:
-  stats-server:
-    ports:
-      - "9091:9090"

@@ -44,7 +44,7 @@ public class EventMapper {
         return event;
     }
 
-    public EventShortDto toShortDto(Event event, long views) {
+    public EventShortDto toShortDto(Event event, long views, double rating) {
         if (event == null) {
             return null;
         }
@@ -61,10 +61,11 @@ public class EventMapper {
                 .paid(event.isPaid())
                 .confirmedRequests(event.getConfirmedRequests())
                 .views(views)
+                .rating(rating)
                 .build();
     }
 
-    public EventFullDto toFullDto(Event event, long views) {
+    public EventFullDto toFullDto(Event event, long views, double rating) {
         if (event == null) {
             return null;
         }
@@ -96,6 +97,7 @@ public class EventMapper {
                 .views(views)
                 .location(location)
                 .state(event.getState())
+                .rating(rating)
                 .build();
     }
 

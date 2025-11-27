@@ -182,8 +182,6 @@ public class RequestServiceImpl implements RequestService {
         requestRepository.saveAll(requests);
         eventRepository.save(event);
 
-        // уменьшил кол-во обращений, но не понял до конца это все возможные упрощения или еще можно сократить кол-во обращений
-
         return EventRequestStatusUpdateResult.builder()
                 .confirmedRequests(confirmed)
                 .rejectedRequests(rejected)

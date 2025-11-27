@@ -31,7 +31,10 @@ public class CompilationMapper {
         if (compilation == null) return null;
 
         List<EventShortDto> eventShortDtos = compilation.getEvents().stream()
-                .map(e -> eventMapper.toShortDto(e, 0L))
+                .map(e -> {
+                    double rating = e.getRating() != null ? e.getRating() : 0.0;
+                    return eventMapper.toShortDto(e, 0L, rating);
+                })
                 .toList();
 
         return CompilationDto.builder()
