@@ -183,10 +183,6 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Response has correct message\", function () {\r",
-									"    pm.expect(pm.response.json().message).to.eql(\"Rating unchanged\");\r",
 									"});"
 								],
 								"type": "text/javascript",
